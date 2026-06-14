@@ -10,21 +10,21 @@ const testimonials = [
     role: "State Head, Menrol Skills Pvt. Ltd.",
     content: "Shiya demonstrated exceptional skills in HR operations and project coordination. Her attention to detail and ability to manage multiple tasks simultaneously made her an invaluable asset to our team.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=2070&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "Project Manager",
     role: "Slanster Platform",
     content: "Her testing skills brought significant improvements to our web platforms. Shiya's meticulous approach to UI testing helped us identify critical issues before deployment.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "Team Member",
     role: "Menrol Skills Pvt. Ltd.",
     content: "Shiya's training sessions were comprehensive and engaging. She effectively communicated complex SOPs and ensured team members understood and implemented them correctly.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop"
   }
 ];
 
@@ -99,8 +99,16 @@ const Testimonials = () => {
                         </p>
  
                         <div className="flex items-center gap-4 mt-auto pt-6 border-t border-[#8B2643]/10">
-                          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#8B2643]/20 flex items-center justify-center bg-accent/5 text-[#8B2643] group-hover:border-[#8B2643] transition-colors">
-                            <User size={24} />
+                          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#8B2643]/20 flex items-center justify-center bg-accent/5 text-[#8B2643] group-hover:border-[#8B2643] transition-colors shrink-0">
+                            {testimonial.image ? (
+                              <img 
+                                src={testimonial.image} 
+                                alt={testimonial.name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <User size={24} />
+                            )}
                           </div>
                           <div>
                             <h4 className="text-base font-bold text-light-1 group-hover:text-[#8B2643] transition-colors">{testimonial.name}</h4>

@@ -30,14 +30,17 @@ const Glass3DAnimation = () => {
     );
     camera.position.z = 8;
 
+    const isMobile = window.innerWidth < 768;
+
     // Create renderer with alpha transparency and antialiasing
     const renderer = new THREE.WebGLRenderer({
       canvas,
-      antialias: true,
+      antialias: !isMobile,
       alpha: true,
+      powerPreference: "high-performance",
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
@@ -62,21 +65,30 @@ const Glass3DAnimation = () => {
     // 1. Central Glass Dodecahedron
     const glassGeometry = new THREE.DodecahedronGeometry(1.6, 0);
     
-    // Create glassy/physical material
-    const glassMaterial = new THREE.MeshPhysicalMaterial({
-      color: 0xffe3e8,
-      transparent: true,
-      opacity: 0.65,
-      roughness: 0.1,
-      metalness: 0.1,
-      transmission: 0.9, // High transparency
-      ior: 1.5,          // Index of refraction for glass
-      thickness: 1.2,    // Glass volume thickness
-      specularIntensity: 1.0,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
-      flatShading: true,
-    });
+    // Create glassy/physical material (fallback to MeshStandardMaterial on mobile)
+    const glassMaterial = isMobile
+      ? new THREE.MeshStandardMaterial({
+          color: 0xffe3e8,
+          transparent: true,
+          opacity: 0.7,
+          roughness: 0.2,
+          metalness: 0.1,
+          flatShading: true,
+        })
+      : new THREE.MeshPhysicalMaterial({
+          color: 0xffe3e8,
+          transparent: true,
+          opacity: 0.65,
+          roughness: 0.1,
+          metalness: 0.1,
+          transmission: 0.9, // High transparency
+          ior: 1.5,          // Index of refraction for glass
+          thickness: 1.2,    // Glass volume thickness
+          specularIntensity: 1.0,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.1,
+          flatShading: true,
+        });
 
     const glassMesh = new THREE.Mesh(glassGeometry, glassMaterial);
     mainGroup.add(glassMesh);
@@ -134,36 +146,46 @@ const Glass3DAnimation = () => {
       positions.push(nodeMesh.position);
     }
 
-    // Connect close nodes with lines
+    // Connect close nodes with a single preallocated line segments geometry (0 garbage collection in loop!)
     const lineMaterial = new THREE.LineBasicMaterial({
       color: 0xff758f,
       transparent: true,
       opacity: 0.15,
     });
 
-    const linesGroup = new THREE.Group();
-    nodesGroup.add(linesGroup);
+    const maxLines = 150;
+    const linePositions = new Float32Array(maxLines * 2 * 3); // 2 points * 3 components
+    const lineGeometry = new THREE.BufferGeometry();
+    lineGeometry.setAttribute("position", new THREE.BufferAttribute(linePositions, 3));
+    const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial);
+    nodesGroup.add(lineSegments);
 
     const updateConnections = () => {
-      // Clear previous lines
-      while (linesGroup.children.length > 0) {
-        const line = linesGroup.children[0] as THREE.Line;
-        line.geometry.dispose();
-        linesGroup.remove(line);
-      }
-
-      // Draw lines between nodes close to each other
+      let vertexIndex = 0;
+      const maxVertices = maxLines * 2;
       for (let i = 0; i < nodesCount; i++) {
         for (let j = i + 1; j < nodesCount; j++) {
           const dist = positions[i].distanceTo(positions[j]);
-          if (dist < 1.8) {
-            const points = [positions[i], positions[j]];
-            const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
-            const line = new THREE.Line(lineGeom, lineMaterial);
-            linesGroup.add(line);
+          if (dist < 1.8 && vertexIndex < maxVertices) {
+            const posI = positions[i];
+            const posJ = positions[j];
+
+            // Start point
+            linePositions[vertexIndex * 3] = posI.x;
+            linePositions[vertexIndex * 3 + 1] = posI.y;
+            linePositions[vertexIndex * 3 + 2] = posI.z;
+
+            // End point
+            linePositions[(vertexIndex + 1) * 3] = posJ.x;
+            linePositions[(vertexIndex + 1) * 3 + 1] = posJ.y;
+            linePositions[(vertexIndex + 1) * 3 + 2] = posJ.z;
+
+            vertexIndex += 2;
           }
         }
       }
+      lineGeometry.setDrawRange(0, vertexIndex);
+      lineGeometry.attributes.position.needsUpdate = true;
     };
 
     updateConnections();
@@ -265,6 +287,7 @@ const Glass3DAnimation = () => {
       nodeGeometry.dispose();
       nodeMaterial.dispose();
       lineMaterial.dispose();
+      lineGeometry.dispose();
     };
   }, [isMounted]);
 

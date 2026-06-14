@@ -10,7 +10,7 @@ const blogPosts = [
     category: "Operations",
     date: "Oct 15, 2025",
     author: "Shiya Pathania",
-    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=1974&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=600&h=400&auto=format&fit=crop",
     desc: "Exploring effective strategies for managing HR operations in government skill development initiatives like DDU-GKY."
   },
   {
@@ -18,7 +18,7 @@ const blogPosts = [
     category: "Testing",
     date: "Sep 28, 2025",
     author: "Shiya Pathania",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=600&h=400&auto=format&fit=crop",
     desc: "A step-by-step guide to effective manual UI testing, covering methodologies, tools, and best practices."
   },
   {
@@ -26,7 +26,7 @@ const blogPosts = [
     category: "Training",
     date: "Aug 12, 2025",
     author: "Shiya Pathania",
-    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=600&h=400&auto=format&fit=crop",
     desc: "Strategies for creating engaging and effective SOP training sessions that ensure team compliance and understanding."
   }
 ];

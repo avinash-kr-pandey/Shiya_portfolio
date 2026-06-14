@@ -19,13 +19,50 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      // If at the absolute bottom of the page, force "contact" as active
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 50) {
+        setActiveSection("contact");
+      }
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    // Setup Intersection Observer for Scroll Spy
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px", // Trigger when the section occupies the center of viewport
+      threshold: 0,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          setActiveSection(id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all sections
+    navLinks.forEach((link) => {
+      const id = link.href.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   return (
@@ -49,15 +86,27 @@ const Navbar = () => {
  
         {/* Desktop Menu */}
         <div className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-sm font-bold text-light-1/80 hover:text-[#8B2643] transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.substring(1);
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`text-sm font-bold tracking-wide relative py-1 transition-colors ${
+                  isActive ? "text-[#8B2643]" : "text-light-1/80 hover:text-[#8B2643]"
+                }`}
+              >
+                {link.name}
+                {isActive && (
+                  <motion.div
+                    layoutId="activeIndicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#8B2643] rounded-full"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </Link>
+            );
+          })}
         </div>
  
         {/* Mobile Menu Toggle */}
@@ -73,21 +122,32 @@ const Navbar = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-primary/98 backdrop-blur-xl border-b border-secondary/20 py-8 px-6 flex flex-col gap-6 lg:hidden shadow-2xl"
+            initial={{ opacity: 0, scale: 0.95, y: -15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -15 }}
+            transition={{ duration: 0.2 }}
+            className="absolute top-[calc(100%+12px)] left-4 right-4 bg-white/75 backdrop-blur-xl border border-white/60 rounded-3xl py-6 px-5 flex flex-col gap-3 lg:hidden shadow-[0_20px_50px_rgba(139,38,67,0.15)] overflow-hidden"
           >
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-lg font-bold text-light-1 hover:text-[#8B2643]"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className={`text-base font-bold px-4 py-3 rounded-2xl flex items-center justify-between transition-all duration-300 ${
+                    isActive
+                      ? "bg-[#8B2643]/10 text-[#8B2643] border-l-4 border-[#8B2643]"
+                      : "text-light-1/80 hover:bg-[#8B2643]/5 hover:text-[#8B2643] border-l-4 border-transparent"
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <span>{link.name}</span>
+                  {isActive && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#8B2643] animate-pulse" />
+                  )}
+                </Link>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>
