@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: Request, { params }: { params: Promise<{ name: string }> }) {
   const { name } = await params;
   // Ensure the requested file is only from the assets folder to prevent directory traversal

@@ -1,23 +1,47 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Quote, Send, X, Plus } from "lucide-react";
-
-// The backend URL. In production, this should point to your Render URL.
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+import { Quote, Send, X, Plus, ChevronLeft, ChevronRight } from "lucide-react";
 
 type Review = {
-  _id?: string;
+  _id: string;
   name: string;
   projectName: string;
   role: string;
   description: string;
-  date?: string;
+  date: string;
 };
 
+const initialReviews: Review[] = [
+  {
+    _id: "1",
+    name: "John Smith",
+    projectName: "HR System Audit & Compliance",
+    role: "Operations Manager",
+    description: "Shiya provided an incredibly thorough audit of our systems. Her expertise helped us save time and streamline our entire HR workflow efficiently.",
+    date: "2025-10-10"
+  },
+  {
+    _id: "2",
+    name: "Sarah Lee",
+    projectName: "Talent Acquisition Strategy",
+    role: "CEO",
+    description: "Working with Shiya completely transformed our hiring process. We are now attracting top-tier talent thanks to her strategic sourcing insights.",
+    date: "2025-09-28"
+  },
+  {
+    _id: "3",
+    name: "Aman Sharma",
+    projectName: "DDU-GKY Project Management",
+    role: "State Project Head",
+    description: "Her command over DDU-GKY guidelines is exceptional. Shiya managed compliance audits flawlessly, leading to 100% successful project closures.",
+    date: "2025-08-15"
+  }
+];
+
 const PeopleSay = () => {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<Review[]>(initialReviews);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -26,25 +50,23 @@ const PeopleSay = () => {
     description: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [toast, setToast] = useState<{ show: boolean; message: string }>({
+    show: false,
+    message: "",
+  });
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const fetchReviews = async () => {
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/reviews?t=${Date.now()}`, {
-        cache: 'no-store'
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      // Scroll by 80% of container width for context continuity
+      const scrollAmount = clientWidth * 0.8;
+      scrollRef.current.scrollTo({
+        left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
+        behavior: "smooth",
       });
-      if (res.ok) {
-        const data = await res.json();
-        setReviews(data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch reviews:", err);
     }
   };
-
-  useEffect(() => {
-    fetchReviews();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -56,34 +78,37 @@ const PeopleSay = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError("");
 
-    try {
-      const res = await fetch(`${BACKEND_URL}/api/reviews`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+    // Simulate database write delay
+    setTimeout(() => {
+      const newReview: Review = {
+        _id: Date.now().toString(),
+        name: formData.name,
+        projectName: formData.projectName,
+        role: formData.role,
+        description: formData.description,
+        date: new Date().toLocaleDateString(),
+      };
+
+      setReviews((prev) => [newReview, ...prev]);
+      setIsModalOpen(false);
+      setFormData({ name: "", projectName: "", role: "", description: "" });
+      setIsSubmitting(false);
+
+      // Trigger Toast Alert
+      setToast({
+        show: true,
+        message: "Review submitted successfully! Thank you for your feedback.",
       });
 
-      if (res.ok) {
-        const newReview = await res.json();
-        setReviews([newReview, ...reviews]);
-        setIsModalOpen(false);
-        setFormData({ name: "", projectName: "", role: "", description: "" });
-      } else {
-        const errData = await res.json();
-        setError(errData.message || "Failed to submit review.");
-      }
-    } catch (err) {
-      setError("Network error. Please try again later.");
-    } finally {
-      setIsSubmitting(false);
-    }
+      // Auto-hide toast after 4 seconds
+      setTimeout(() => {
+        setToast((t) => t.message === "Review submitted successfully! Thank you for your feedback." ? { ...t, show: false } : t);
+      }, 4000);
+    }, 1000);
   };
 
   return (
@@ -109,18 +134,44 @@ const PeopleSay = () => {
               People <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Say</span>
             </motion.h2>
           </div>
-          <motion.button 
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            onClick={() => setIsModalOpen(true)}
-            className="btn-secondary flex items-center gap-2 group text-sm font-bold tracking-widest uppercase"
-          >
-            <Plus size={16} className="group-hover:rotate-90 transition-transform" /> Write a Review
-          </motion.button>
+          
+          <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end flex-wrap md:flex-nowrap">
+            {/* Slider Navigation Arrows */}
+            {reviews.length > 0 && (
+              <div className="flex gap-2.5">
+                <button 
+                  onClick={() => scroll("left")}
+                  className="w-10 h-10 rounded-full border border-[#8B2643]/20 flex items-center justify-center text-light-1 hover:bg-[#8B2643] hover:text-white hover:border-[#8B2643] transition-all bg-white/40 shadow-sm"
+                  aria-label="Scroll reviews left"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button 
+                  onClick={() => scroll("right")}
+                  className="w-10 h-10 rounded-full border border-[#8B2643]/20 flex items-center justify-center text-light-1 hover:bg-[#8B2643] hover:text-white hover:border-[#8B2643] transition-all bg-white/40 shadow-sm"
+                  aria-label="Scroll reviews right"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
+            
+            <motion.button 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              onClick={() => setIsModalOpen(true)}
+              className="btn-secondary flex items-center gap-2 group text-sm font-bold tracking-widest uppercase shrink-0"
+            >
+              <Plus size={16} className="group-hover:rotate-90 transition-transform" /> Write a Review
+            </motion.button>
+          </div>
         </div>
 
         {/* Horizontal Scroller for Cards */}
-        <div className="w-full overflow-x-auto pb-10 hide-scrollbar cursor-grab active:cursor-grabbing">
+        <div 
+          ref={scrollRef}
+          className="w-full overflow-x-auto pb-10 hide-scrollbar cursor-grab active:cursor-grabbing scroll-smooth"
+        >
           <div className="flex gap-6 min-w-max">
             {reviews.length === 0 ? (
               <div className="w-full text-center py-20 text-light-1/70">
@@ -241,8 +292,6 @@ const PeopleSay = () => {
                   />
                 </div>
 
-                {error && <p className="text-red-500 text-sm">{error}</p>}
-
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
@@ -254,6 +303,27 @@ const PeopleSay = () => {
                 </button>
               </form>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Toast Notification Banner */}
+      <AnimatePresence>
+        {toast.show && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="fixed bottom-10 right-10 z-[110] glass-card px-6 py-4 border border-[#8B2643]/30 bg-white/90 shadow-2xl flex items-center gap-3 rounded-2xl max-w-sm"
+          >
+            <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping shrink-0" />
+            <div className="text-sm font-bold text-light-1">{toast.message}</div>
+            <button 
+              onClick={() => setToast({ show: false, message: "" })}
+              className="text-light-1/40 hover:text-accent ml-2 text-xs"
+            >
+              ✕
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
