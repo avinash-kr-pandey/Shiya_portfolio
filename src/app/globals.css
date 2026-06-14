@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 61, 46, 50;
+  --background-start-rgb: 255, 240, 243;
+  --background-end-rgb: 255, 227, 232;
+}
+
+@layer base {
+  body {
+    @apply bg-primary text-light-1 antialiased;
+    font-family: var(--font-outfit), sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair), serif;
+    @apply bg-gradient-to-r from-[#4A1525] via-[#8B2643] to-[#C73E5B] bg-clip-text text-transparent font-bold;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-md border border-white/50 rounded-2xl shadow-md transition-all duration-300;
+  }
+  
+  .glass-card-glow {
+    @apply bg-white/70 backdrop-blur-md border border-white/50 rounded-2xl shadow-md transition-all duration-300 hover:shadow-[0_10px_30px_rgba(255,117,143,0.12)] hover:border-accent/40;
+  }
+
+  .premium-button {
+    @apply px-6 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md text-sm md:text-base;
+  }
+
+  .btn-primary {
+    @apply premium-button bg-accent text-[#4A1525] hover:bg-[#4A1525] hover:text-primary hover:shadow-[0_8px_25px_rgba(139,38,67,0.25)] border border-transparent hover:border-[#4A1525];
+  }
+
+  .btn-secondary {
+    @apply premium-button border border-accent/60 text-[#4A1525] hover:bg-accent/10 hover:shadow-[0_8px_20px_rgba(255,117,143,0.08)];
+  }
+
+  .section-padding {
+    @apply py-16 px-4 sm:px-6 md:py-24 md:px-12 lg:px-24;
+  }
+  
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 117, 143, 0.25);
+  }
+
+  /* Conic Gradient Animated Border Card */
+  @keyframes border-rotate {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animated-border-card {
+    position: relative;
+    border-radius: 24px;
+    z-index: 1;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .animated-border-card::before {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    background-color: transparent;
+    background-image: conic-gradient(
+      transparent,
+      rgba(255, 117, 143, 0.15),
+      rgba(255, 117, 143, 0.6),
+      transparent 50%
+    );
+    animation: border-rotate 6s linear infinite;
+  }
+
+  .animated-border-card::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 2px;
+    top: 2px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    border-radius: 22px;
+  }
+
+  /* 3D Card Flipping */
+  .flip-card {
+    perspective: 1200px;
+    background-color: transparent;
+  }
+  
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 2rem;
+  }
+  
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-primary;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-accent/40 rounded-full hover:bg-accent/70 transition-colors duration-300;
+}
