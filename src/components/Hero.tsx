@@ -10,14 +10,14 @@ const Hero = () => {
   const [expText, setExpText] = useState("Loading...");
 
   useEffect(() => {
-    setExpText(formatExperience("2025-01-01"));
+    setExpText(formatExperience("2025-01-06"));
   }, []);
 
   const stats = [
-    { icon: Award, label: `${expText} Experience`, value: "Expertise" },
-    { icon: Users, label: "500+ Hires", value: "Successful" },
-    { icon: TrendingUp, label: "95% Employee Retention", value: "Impact" },
-    { icon: Briefcase, label: "50+ Corporate Clients", value: "Trusted" },
+    { icon: Award, value: expText, label: "Experience" },
+    { icon: Users, value: "500+", label: "Successful Hires" },
+    { icon: TrendingUp, value: "95%", label: "Employee Retention" },
+    { icon: Briefcase, value: "50+", label: "Corporate Clients" },
   ];
 
   const socialLinks = [
@@ -43,13 +43,12 @@ const Hero = () => {
             <span className="w-2.5 h-2.5 bg-[#8B2643] rounded-full animate-pulse" />
             <span className="text-xs font-bold uppercase tracking-widest text-[#8B2643]">Available for Strategic Consulting</span>
           </div>
- 
+
           <div className="mb-6">
             <motion.h1
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold block mb-4 font-display italic bg-gradient-to-r from-[#4A1525] to-[#8B2643] bg-clip-text text-transparent leading-normal pb-2"
-              style={{ fontFamily: 'Georgia, serif', fontWeight: 900 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold block mb-4 bg-gradient-to-r from-[#4A1525] to-[#8B2643] bg-clip-text text-transparent leading-normal pb-2"
             >
               Shiya Pathania
             </motion.h1>
@@ -63,18 +62,18 @@ const Hero = () => {
               into <span className="whitespace-nowrap">Scalable <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Success.</span></span>
             </motion.h2>
           </div>
- 
+
           <p className="text-base md:text-lg text-light-1/85 mb-8 max-w-xl leading-relaxed">
             From leading national-level projects like DDU-GKY to handling critical audits, I leverage 360-degree HR expertise to acquire top talent and accelerate business growth.
           </p>
- 
+
           <div className="flex flex-wrap gap-4 mb-10">
             <a href="#contact" className="btn-primary flex items-center gap-2">
               Get Started <ChevronRight size={20} />
             </a>
             <a href="#experience" className="btn-secondary">View My Journey</a>
           </div>
- 
+
           <div className="flex flex-wrap items-center gap-4 md:gap-6 mb-8 md:mb-0">
             <span className="text-xs font-bold text-light-1/70 uppercase tracking-widest">Follow Professional Insights:</span>
             <div className="flex gap-4">
@@ -94,14 +93,14 @@ const Hero = () => {
                   <stat.icon size={18} />
                 </div>
                 <div>
-                  <div className="text-base font-bold text-[#4A1525] leading-none">{stat.label.split(' ')[0]}</div>
-                  <div className="text-[9px] uppercase text-[#8B2643] font-bold tracking-wider mt-1">{stat.label.split(' ').slice(1).join(' ')}</div>
+                  <div className="text-base font-bold text-[#4A1525] leading-none">{stat.value}</div>
+                  <div className="text-[9px] uppercase text-[#8B2643] font-bold tracking-wider mt-1">{stat.label}</div>
                 </div>
               </div>
             ))}
           </div>
         </motion.div>
- 
+
         {/* Right Content - Visuals */}
         <div className="relative mt-8 lg:mt-0">
           <motion.div
@@ -123,7 +122,7 @@ const Hero = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
               </div>
             </div>
- 
+
             {/* Floating Stats Cards - Desktop Only */}
             {stats.map((stat, idx) => (
               <motion.div
@@ -141,8 +140,8 @@ const Hero = () => {
                   <stat.icon size={20} />
                 </div>
                 <div>
-                  <div className="text-lg font-bold text-light-1 leading-none">{stat.label.split(' ')[0]}</div>
-                  <div className="text-[10px] uppercase text-[#8B2643] font-bold tracking-wider">{stat.label.split(' ').slice(1).join(' ')}</div>
+                  <div className="text-lg font-bold text-light-1 leading-none">{stat.value}</div>
+                  <div className="text-[10px] uppercase text-[#8B2643] font-bold tracking-wider mt-1">{stat.label}</div>
                 </div>
               </motion.div>
             ))}
