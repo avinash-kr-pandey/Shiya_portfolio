@@ -60,7 +60,7 @@ const Hero = () => {
               className="text-xl sm:text-2xl md:text-3xl lg:text-4.5xl font-bold leading-tight mb-6 bg-gradient-to-r from-[#4A1525] via-[#8B2643] to-[#B53551] bg-clip-text text-transparent"
             >
               Turning <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Operational Challenges</span> <br />
-              into Scalable <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Success.</span>
+              into <span className="whitespace-nowrap">Scalable <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Success.</span></span>
             </motion.h2>
           </div>
  
