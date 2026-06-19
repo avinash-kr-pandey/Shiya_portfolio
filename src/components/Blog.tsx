@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Calendar, ArrowRight, User } from "lucide-react";
+import Image from "next/image";
 
 const blogPosts = [
   {
@@ -73,9 +74,11 @@ const Blog = () => {
             >
               <div className="relative z-10 flex flex-col h-full overflow-hidden rounded-[22px]">
                 <div className="relative h-64 overflow-hidden">
-                  <img 
+                  <Image 
                     src={post.image} 
                     alt={post.title} 
+                    width={400}
+                    height={256}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   <div className="absolute top-6 left-6">

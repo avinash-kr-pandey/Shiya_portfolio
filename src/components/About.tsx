@@ -1,9 +1,18 @@
 "use client";
  
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Target, Heart, Zap } from "lucide-react";
-import Glass3DAnimation from "./Glass3DAnimation";
+import dynamic from "next/dynamic";
+
+const Glass3DAnimation = dynamic(() => import("./Glass3DAnimation"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full aspect-square max-w-[420px] mx-auto relative rounded-3xl overflow-hidden border border-white/40 bg-white/30 backdrop-blur-md shadow-[0_20px_50px_rgba(255,117,143,0.1)] flex items-center justify-center text-[#8B2643] font-bold text-sm">
+      Loading 3D Experience...
+    </div>
+  ),
+});
  
 const highlights = [
   { icon: Target, title: "Mission", desc: "To revolutionize human capital management through data-driven insights and people-first leadership." },
@@ -17,18 +26,44 @@ const timelineData = [
 ];
  
 const About = () => {
+  const [isInView, setIsInView] = useState(false);
+  const observerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section id="about" className="section-padding bg-white/50 backdrop-blur-md border-y border-white/40 text-light-1 overflow-hidden">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left: 3D WebGL Canvas */}
           <motion.div
+            ref={observerRef}
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center min-h-[350px] md:min-h-[420px] w-full"
           >
-            <Glass3DAnimation />
+            {isInView ? <Glass3DAnimation /> : (
+              <div className="w-full aspect-square max-w-[420px] mx-auto relative rounded-3xl overflow-hidden border border-white/40 bg-white/30 backdrop-blur-md shadow-[0_20px_50px_rgba(255,117,143,0.1)] flex items-center justify-center text-[#8B2643] font-bold text-sm">
+                Loading 3D Experience...
+              </div>
+            )}
             {/* Decorative Gradients */}
             <div className="absolute -top-4 -right-4 w-full h-full border border-[#8B2643]/15 rounded-[2.5rem] -z-10 translate-x-3 translate-y-3 pointer-events-none" />
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl pointer-events-none" />

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Phone, MapPin, Send, MessageSquare, Building2, Globe } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare, Building2, Globe, User } from "lucide-react";
 
 const contactInfo = [
   { icon: Mail, label: "Email Me", value: "pathaniashiya@gmail.com" },
@@ -114,10 +114,11 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
                 <div className="grid md:grid-cols-2 gap-6 md:gap-8">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Full Name</label>
+                    <label htmlFor="contact-name" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Full Name</label>
                     <div className="relative">
                       <input 
                         required
+                        id="contact-name"
                         type="text" 
                         name="name"
                         value={formData.name}
@@ -125,14 +126,15 @@ const Contact = () => {
                         placeholder="John Doe"
                         className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12" 
                       />
-                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B2643]/60" size={18} />
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B2643]/60" size={18} />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Email Address</label>
+                    <label htmlFor="contact-email" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Email Address</label>
                     <div className="relative">
                       <input 
                         required
+                        id="contact-email"
                         type="email" 
                         name="email"
                         value={formData.email}
@@ -146,10 +148,11 @@ const Contact = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Company Name</label>
+                  <label htmlFor="contact-company" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Company Name</label>
                   <div className="relative">
                     <input 
                       required
+                      id="contact-company"
                       type="text" 
                       name="company"
                       value={formData.company}
@@ -162,10 +165,11 @@ const Contact = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Your Message</label>
+                  <label htmlFor="contact-message" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Your Message</label>
                   <div className="relative">
                     <textarea 
                       required
+                      id="contact-message"
                       rows={5}
                       name="message"
                       value={formData.message}

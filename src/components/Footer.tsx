@@ -43,11 +43,17 @@ const Footer = () => {
           <div>
             <h4 className="text-light-1 font-bold mb-8 uppercase tracking-widest text-xs">Quick Navigation</h4>
             <ul className="space-y-4">
-              {["About Me", "My Services", "Career Journey", "Latest Insights", "Contact"].map((item, idx) => (
+              {[
+                { name: "About Me", href: "#about" },
+                { name: "My Services", href: "#services" },
+                { name: "Career Journey", href: "#experience" },
+                { name: "Latest Insights", href: "#blog" },
+                { name: "Contact", href: "#contact" }
+              ].map((item, idx) => (
                 <li key={idx}>
-                  <Link href={`#${item.toLowerCase().split(' ')[0]}`} className="text-light-1/80 hover:text-[#8B2643] transition-colors text-sm flex items-center gap-2 group">
-                    <span className="w-0 h-[1px] bg-[#8B2643] group-hover:w-4 transition-all" />
-                    {item}
+                  <Link href={item.href} className="text-light-1/80 hover:text-[#8B2643] transition-colors text-sm flex items-center gap-2 group">
+                    <span className="w-4 h-[1px] bg-[#8B2643] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                    {item.name}
                   </Link>
                 </li>
               ))}
@@ -68,13 +74,14 @@ const Footer = () => {
           <div>
             <h4 className="text-light-1 font-bold mb-8 uppercase tracking-widest text-xs">Stay Informed</h4>
             <p className="text-light-1/80 text-sm mb-6">Receive the latest HR trends and leadership insights directly to your inbox.</p>
-            <form className="relative">
+            <form className="relative" onSubmit={(e) => e.preventDefault()}>
               <input 
                 type="email" 
+                aria-label="Subscribe to newsletter"
                 placeholder="Email address"
                 className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-sm text-light-1 placeholder-light-1/60 focus:outline-none focus:border-[#8B2643] transition-all pr-12"
               />
-              <button className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#8B2643] rounded-lg flex items-center justify-center text-white hover:bg-[#4A1525] transition-colors">
+              <button type="submit" aria-label="Subscribe" className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-[#8B2643] rounded-lg flex items-center justify-center text-white hover:bg-[#4A1525] transition-colors">
                 <Send size={18} />
               </button>
             </form>

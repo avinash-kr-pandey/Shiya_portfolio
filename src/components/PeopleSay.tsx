@@ -112,7 +112,7 @@ const PeopleSay = () => {
   };
 
   return (
-    <section className="section-padding bg-primary relative overflow-hidden">
+    <section id="peoplesay" className="section-padding bg-primary relative overflow-hidden">
       {/* Decorative Blur */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300px] bg-accent/5 blur-[120px] -z-10" />
 
@@ -241,9 +241,10 @@ const PeopleSay = () => {
               <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Full Name</label>
+                    <label htmlFor="review-name" className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Full Name</label>
                     <input 
                       required
+                      id="review-name"
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
@@ -253,9 +254,10 @@ const PeopleSay = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Your Role</label>
+                    <label htmlFor="review-role" className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Your Role</label>
                     <input 
                       required
+                      id="review-role"
                       name="role"
                       value={formData.role}
                       onChange={handleChange}
@@ -267,9 +269,10 @@ const PeopleSay = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Project Name</label>
+                  <label htmlFor="review-project" className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Project Name</label>
                   <input 
                     required
+                    id="review-project"
                     name="projectName"
                     value={formData.projectName}
                     onChange={handleChange}
@@ -280,9 +283,10 @@ const PeopleSay = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Review (Max 150 Words)</label>
+                  <label htmlFor="review-desc" className="text-xs font-bold uppercase tracking-widest text-light-1/80 ml-1">Review (Max 150 Words)</label>
                   <textarea 
                     required
+                    id="review-desc"
                     name="description"
                     value={formData.description}
                     onChange={handleChange}
@@ -327,16 +331,6 @@ const PeopleSay = () => {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <style jsx global>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </section>
   );
 };

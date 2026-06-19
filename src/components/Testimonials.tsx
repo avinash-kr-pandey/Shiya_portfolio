@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, Star, ChevronLeft, ChevronRight, User } from "lucide-react";
+import Image from "next/image";
 
 const testimonials = [
   {
@@ -101,9 +102,11 @@ const Testimonials = () => {
                         <div className="flex items-center gap-4 mt-auto pt-6 border-t border-[#8B2643]/10">
                           <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#8B2643]/20 flex items-center justify-center bg-accent/5 text-[#8B2643] group-hover:border-[#8B2643] transition-colors shrink-0">
                             {testimonial.image ? (
-                              <img 
+                              <Image 
                                 src={testimonial.image} 
                                 alt={testimonial.name}
+                                width={56}
+                                height={56}
                                 className="w-full h-full object-cover"
                               />
                             ) : (
@@ -127,12 +130,14 @@ const Testimonials = () => {
           <div className="flex justify-center gap-6 mt-10">
             <button 
               onClick={prev}
+              aria-label="Previous Testimonial"
               className="w-14 h-14 rounded-full border border-[#8B2643]/20 flex items-center justify-center text-light-1 hover:bg-[#8B2643] hover:text-white hover:border-[#8B2643] transition-all group shadow-sm bg-white/40"
             >
               <ChevronLeft size={24} className="group-hover:-translate-x-1 transition-transform" />
             </button>
             <button 
               onClick={next}
+              aria-label="Next Testimonial"
               className="w-14 h-14 rounded-full border border-[#8B2643]/20 flex items-center justify-center text-light-1 hover:bg-[#8B2643] hover:text-white hover:border-[#8B2643] transition-all group shadow-sm bg-white/40"
             >
               <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />

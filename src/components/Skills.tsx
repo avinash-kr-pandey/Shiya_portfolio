@@ -73,17 +73,17 @@ const certifications = [
   {
     title: "Organizational Behavior",
     issuer: "Swayam",
-    file: "/api/assets/swayam_certificate.pdf"
+    file: "/assets/swayam_certificate.pdf"
   },
   {
     title: "Project Management",
     issuer: "Great Learning",
-    file: "/api/assets/Projec_ Management.pdf"
+    file: "/assets/Project_Management.pdf"
   },
   {
     title: "Excel for Beginners",
     issuer: "Great Learning",
-    file: "/api/assets/Excel_Completion.pdf"
+    file: "/assets/Excel_Completion.pdf"
   }
 ];
 
@@ -167,8 +167,9 @@ const Skills = () => {
                         </div>
                         <div className="h-2 bg-accent/10 border border-accent/5 rounded-full overflow-hidden">
                           <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${skill.level}%` }}
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            style={{ originX: 0, width: `${skill.level}%` }}
                             transition={{ duration: 1, ease: "easeOut", delay: sIdx * 0.05 }}
                             className="h-full bg-gradient-to-r from-[#8B2643]/70 to-[#8B2643] relative"
                           >

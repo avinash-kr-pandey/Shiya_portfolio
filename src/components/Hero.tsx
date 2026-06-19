@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { ChevronRight, Linkedin, Twitter, Mail, Award, Users, Briefcase, TrendingUp } from "lucide-react";
 import { formatExperience } from "@/utils/experience";
 import Image from "next/image";
-import shiyaImg from "@/assets/images/shiyaimage.jpg";
 
 const Hero = () => {
   const [expText, setExpText] = useState("Loading...");
@@ -46,19 +45,23 @@ const Hero = () => {
           </div>
  
           <div className="mb-6">
-            <motion.span
-              initial={{ opacity: 0, y: 10 }}
+            <motion.h1
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-3xl md:text-5xl block mb-4 font-display italic bg-gradient-to-r from-[#4A1525] to-[#8B2643] bg-clip-text text-transparent"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold block mb-4 font-display italic bg-gradient-to-r from-[#4A1525] to-[#8B2643] bg-clip-text text-transparent leading-normal pb-2"
               style={{ fontFamily: 'Georgia, serif', fontWeight: 900 }}
             >
               Shiya Pathania
-            </motion.span>
-            <h1 className="text-3xl sm:text-4.5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 bg-gradient-to-r from-[#4A1525] via-[#8B2643] to-[#B53551] bg-clip-text text-transparent">
+            </motion.h1>
+            <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4.5xl font-bold leading-tight mb-6 bg-gradient-to-r from-[#4A1525] via-[#8B2643] to-[#B53551] bg-clip-text text-transparent"
+            >
               Turning <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Operational Challenges</span> <br />
-              into Scalable <br />
-              <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Success.</span>
-            </h1>
+              into Scalable <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent font-extrabold">Success.</span>
+            </motion.h2>
           </div>
  
           <p className="text-base md:text-lg text-light-1/85 mb-8 max-w-xl leading-relaxed">
@@ -110,8 +113,10 @@ const Hero = () => {
             <div className="relative w-full aspect-[4/5] max-w-sm sm:max-w-md mx-auto flex items-end justify-center rounded-[2.5rem] overflow-hidden border border-white/40 shadow-[0_0_50px_rgba(182,182,213,0.15)] bg-gradient-to-b from-white/20 to-transparent p-2 group">
               <div className="relative w-full h-full rounded-[2rem] overflow-hidden">
                 <Image
-                  src={shiyaImg}
+                  src="/assets/shiyaimage.webp"
                   alt="Shiya Pathania - HR Professional"
+                  width={420}
+                  height={525}
                   className="w-full h-full object-cover hover:scale-105 transition-all duration-700"
                   priority
                 />
