@@ -16,7 +16,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shiyapathania.com"),
+  metadataBase: new URL("https://pathaniashiya.vercel.app"),
   title: {
     default: "Shiya Pathania | Strategic HR Leader & Operations Specialist",
     template: "%s | Shiya Pathania"
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://shiyapathania.com",
+    url: "https://pathaniashiya.vercel.app",
     title: "Shiya Pathania | Strategic HR Leader & Operations Specialist",
     description: "Executive HR & Operations professional specializing in talent acquisition, organizational development, DDU-GKY compliance, and employee relations.",
     siteName: "Shiya Pathania Portfolio",
@@ -72,14 +72,14 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "Person",
-      "@id": "https://shiyapathania.com/#person",
+      "@id": "https://pathaniashiya.vercel.app/#person",
       "name": "Shiya Pathania",
-      "url": "https://shiyapathania.com",
+      "url": "https://pathaniashiya.vercel.app",
       "jobTitle": "HR & Operations Specialist",
       "sameAs": [
         "https://www.linkedin.com/in/shiya-pathania-1248702b4/"
       ],
-      "image": "https://shiyapathania.com/assets/shiyaimage.webp",
+      "image": "https://pathaniashiya.vercel.app/assets/shiyaimage.webp",
       "knowsAbout": [
         "Human Resources Management",
         "Talent Sourcing & Recruitment",
@@ -91,20 +91,20 @@ const jsonLd = {
     },
     {
       "@type": "WebSite",
-      "@id": "https://shiyapathania.com/#website",
-      "url": "https://shiyapathania.com",
+      "@id": "https://pathaniashiya.vercel.app/#website",
+      "url": "https://pathaniashiya.vercel.app",
       "name": "Shiya Pathania Portfolio",
       "description": "Strategic HR Leadership Portfolio",
       "publisher": {
-        "@id": "https://shiyapathania.com/#person"
+        "@id": "https://pathaniashiya.vercel.app/#person"
       }
     },
     {
       "@type": "Organization",
-      "@id": "https://shiyapathania.com/#organization",
+      "@id": "https://pathaniashiya.vercel.app/#organization",
       "name": "Shiya Pathania Consulting",
-      "url": "https://shiyapathania.com",
-      "logo": "https://shiyapathania.com/assets/shiyaimage.webp"
+      "url": "https://pathaniashiya.vercel.app",
+      "logo": "https://pathaniashiya.vercel.app/assets/shiyaimage.webp"
     }
   ]
 };
