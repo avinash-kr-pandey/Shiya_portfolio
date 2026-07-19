@@ -18,14 +18,14 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   metadataBase: new URL("https://pathaniashiya.vercel.app"),
   title: {
-    default: "Shiya Pathania | Strategic HR Leader & Operations Specialist",
+    default: "Shiya Pathania | Best HR Leader & Operations Specialist in Mohali",
     template: "%s | Shiya Pathania"
   },
-  description: "Executive HR & Operations professional specializing in talent acquisition, organizational development, DDU-GKY compliance, and employee relations.",
+  description: "Shiya Pathania is a leading HR & Operations professional in Mohali, Punjab. Specializing in talent acquisition, organizational development, DDU-GKY compliance, and employee relations.",
   keywords: [
-    "Shiya Pathania", "HR Executive", "Strategic HR", "Talent Acquisition", 
-    "Operations Specialist", "DDU-GKY", "SOP Training", "HR Compliance", 
-    "Talent Management", "HR Consulting", "HR Portfolio"
+    "Shiya", "Pathania", "Shiya Pathania", "best hr in mohali", "HR Executive in Mohali", 
+    "Strategic HR Mohali", "Talent Acquisition Mohali", "Operations Specialist", 
+    "DDU-GKY", "SOP Training", "HR Compliance", "Talent Management", "HR Consulting"
   ],
   authors: [{ name: "Shiya Pathania" }],
   creator: "Shiya Pathania",
