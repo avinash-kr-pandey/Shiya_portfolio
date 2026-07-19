@@ -64,7 +64,7 @@ const Hero = () => {
           </div>
 
           <p className="text-base md:text-lg text-light-1/85 mb-8 max-w-xl leading-relaxed">
-            From leading national-level projects like DDU-GKY to handling critical audits, I leverage 360-degree HR expertise to acquire top talent and accelerate business growth.
+            As a leading <strong>HR &amp; Operations Specialist in Mohali</strong>, I leverage 360-degree expertise—from leading national projects like DDU-GKY to handling audits—to acquire top talent and drive success.
           </p>
 
           <div className="flex flex-wrap gap-4 mb-10">
