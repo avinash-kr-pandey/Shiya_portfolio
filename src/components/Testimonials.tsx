@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Quote, Star, ChevronLeft, ChevronRight, User } from "lucide-react";
-import Image from "next/image";
 
 const testimonials = [
   {
@@ -11,21 +10,18 @@ const testimonials = [
     role: "State Head, Menrol Skills Pvt. Ltd.",
     content: "Shiya demonstrated exceptional skills in HR operations and project coordination. Her attention to detail and ability to manage multiple tasks simultaneously made her an invaluable asset to our team.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "Project Manager",
     role: "Slanster Platform",
     content: "Her testing skills brought significant improvements to our web platforms. Shiya's meticulous approach to UI testing helped us identify critical issues before deployment.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "Team Member",
     role: "Menrol Skills Pvt. Ltd.",
     content: "Shiya's training sessions were comprehensive and engaging. She effectively communicated complex SOPs and ensured team members understood and implemented them correctly.",
     stars: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop"
   }
 ];
 
@@ -75,47 +71,42 @@ const Testimonials = () => {
                     <motion.div
                       key={testimonial.name + offset}
                       whileHover={{ y: -10 }}
-                      className={`animated-border-card group hover:shadow-lg transition-all h-full ${
+                      className={`relative group h-full ${
                         offset === 1 ? "hidden lg:block" : ""
                       }`}
                     >
-                      <div className="relative z-10 p-8 md:p-10 flex flex-col h-full">
-                        <div className="absolute -top-6 right-10 w-12 h-12 bg-[#8B2643] rounded-full flex items-center justify-center text-primary shadow-[0_4px_15px_rgba(139,38,67,0.35)] group-hover:scale-110 transition-transform duration-500">
-                          <Quote size={24} fill="currentColor" />
-                        </div>
- 
-                        <div className="flex gap-1 mb-6">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              size={16} 
-                              className={i < testimonial.stars ? "text-[#8B2643]" : "text-[#8B2643]/15"} 
-                              fill={i < testimonial.stars ? "currentColor" : "none"} 
-                            />
-                          ))}
-                        </div>
- 
-                        <p className="text-base md:text-lg text-light-1/85 italic mb-8 leading-relaxed font-display flex-grow">
-                          "{testimonial.content}"
-                        </p>
- 
-                        <div className="flex items-center gap-4 mt-auto pt-6 border-t border-[#8B2643]/10">
-                          <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#8B2643]/20 flex items-center justify-center bg-accent/5 text-[#8B2643] group-hover:border-[#8B2643] transition-colors shrink-0">
-                            {testimonial.image ? (
-                              <Image 
-                                src={testimonial.image} 
-                                alt={testimonial.name}
-                                width={56}
-                                height={56}
-                                className="w-full h-full object-cover"
+                      {/* Floating Quote Icon - Placed outside the card to prevent clipping */}
+                      <div className="absolute -top-4 right-10 w-12 h-12 bg-[#8B2643] rounded-full flex items-center justify-center text-primary shadow-[0_4px_15px_rgba(139,38,67,0.35)] group-hover:scale-110 transition-transform duration-500 z-20">
+                        <Quote size={24} fill="currentColor" />
+                      </div>
+
+                      {/* Card wrapper */}
+                      <div className="animated-border-card h-full">
+                        <div className="relative z-10 p-8 md:p-10 flex flex-col h-full">
+                          <div className="flex gap-1 mb-6">
+                            {[...Array(5)].map((_, i) => (
+                              <Star 
+                                key={i} 
+                                size={16} 
+                                className={i < testimonial.stars ? "text-[#8B2643]" : "text-[#8B2643]/15"} 
+                                fill={i < testimonial.stars ? "currentColor" : "none"} 
                               />
-                            ) : (
-                              <User size={24} />
-                            )}
+                            ))}
                           </div>
-                          <div>
-                            <h4 className="text-base font-bold text-light-1 group-hover:text-[#8B2643] transition-colors">{testimonial.name}</h4>
-                            <p className="text-xs text-light-1/85 uppercase tracking-widest mt-1">{testimonial.role}</p>
+ 
+                          <p className="text-base md:text-lg text-light-1/85 italic mb-8 leading-relaxed font-display flex-grow">
+                            "{testimonial.content}"
+                          </p>
+ 
+                          <div className="flex items-center gap-4 mt-auto pt-6 border-t border-[#8B2643]/10">
+                            {/* Premium User Avatar Icon Badge */}
+                            <div className="w-14 h-14 rounded-full border-2 border-[#8B2643]/20 flex items-center justify-center bg-[#8B2643]/10 text-[#8B2643] group-hover:bg-[#8B2643] group-hover:text-primary transition-all shrink-0">
+                              <User size={24} />
+                            </div>
+                            <div>
+                              <h4 className="text-base font-bold text-light-1 group-hover:text-[#8B2643] transition-colors">{testimonial.name}</h4>
+                              <p className="text-xs text-light-1/85 uppercase tracking-widest mt-1">{testimonial.role}</p>
+                            </div>
                           </div>
                         </div>
                       </div>

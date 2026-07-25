@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Outfit } from "next/font/google";
+import AnimatedBackground from "@/components/AnimatedBackground";
 
 import "./globals.css";
 
@@ -119,13 +120,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${playfair.variable} ${outfit.variable} bg-primary text-light-1`}>
+      <body className={`${playfair.variable} ${outfit.variable} bg-primary text-light-1 relative`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(jsonLd),
           }}
         />
+        <AnimatedBackground />
         {children}
       </body>
     </html>

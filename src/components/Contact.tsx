@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Phone, MapPin, Send, MessageSquare, Building2, Globe, User } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageSquare, Building2, Globe, User, Heart, X } from "lucide-react";
 
 const contactInfo = [
   { icon: Mail, label: "Email Me", value: "pathaniashiya@gmail.com" },
@@ -19,6 +19,8 @@ const Contact = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isThankYouOpen, setIsThankYouOpen] = useState(false);
+  const [submittedName, setSubmittedName] = useState("");
   const [toast, setToast] = useState<{ show: boolean; message: string }>({
     show: false,
     message: "",
@@ -33,21 +35,11 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate dummy API roundtrip delay
     setTimeout(() => {
-      setIsSubmitting(false);
+      setSubmittedName(formData.name);
+      setIsThankYouOpen(true);
       setFormData({ name: "", email: "", company: "", message: "" });
-
-      // Trigger Toast Alert
-      setToast({
-        show: true,
-        message: "Message sent successfully! Shiya will get back to you soon.",
-      });
-
-      // Auto-hide toast after 4 seconds
-      setTimeout(() => {
-        setToast((t) => t.message === "Message sent successfully! Shiya will get back to you soon." ? { ...t, show: false } : t);
-      }, 4000);
+      setIsSubmitting(false);
     }, 1000);
   };
 
@@ -62,14 +54,14 @@ const Contact = () => {
         <div className="grid lg:grid-cols-2 gap-20 items-start">
           {/* Left Side: Info */}
           <div>
-            <motion.h4 
+            <motion.h4
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               className="text-[#8B2643] font-bold uppercase tracking-[0.2em] text-sm mb-4"
             >
               Get In Touch
             </motion.h4>
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-5xl font-bold mb-8 leading-tight bg-gradient-to-r from-[#4A1525] via-[#8B2643] to-[#C73E5B] bg-clip-text text-transparent"
@@ -83,7 +75,7 @@ const Contact = () => {
 
             <div className="grid sm:grid-cols-2 gap-6 md:gap-8 mb-12">
               {contactInfo.map((info, idx) => (
-                <motion.div 
+                <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -116,15 +108,15 @@ const Contact = () => {
                   <div className="space-y-2">
                     <label htmlFor="contact-name" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Full Name</label>
                     <div className="relative">
-                      <input 
+                      <input
                         required
                         id="contact-name"
-                        type="text" 
+                        type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="John Doe"
-                        className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12" 
+                        placeholder="Your Name"
+                        className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12"
                       />
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B2643]/60" size={18} />
                     </div>
@@ -132,15 +124,15 @@ const Contact = () => {
                   <div className="space-y-2">
                     <label htmlFor="contact-email" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Email Address</label>
                     <div className="relative">
-                      <input 
+                      <input
                         required
                         id="contact-email"
-                        type="email" 
+                        type="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="john@company.com"
-                        className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12" 
+                        placeholder="example@gmail.com"
+                        className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12"
                       />
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B2643]/60" size={18} />
                     </div>
@@ -150,15 +142,15 @@ const Contact = () => {
                 <div className="space-y-2">
                   <label htmlFor="contact-company" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Company Name</label>
                   <div className="relative">
-                    <input 
+                    <input
                       required
                       id="contact-company"
-                      type="text" 
+                      type="text"
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
                       placeholder="Tech Solutions Inc."
-                      className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12" 
+                      className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12"
                     />
                     <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8B2643]/60" size={18} />
                   </div>
@@ -167,7 +159,7 @@ const Contact = () => {
                 <div className="space-y-2">
                   <label htmlFor="contact-message" className="text-xs font-bold uppercase tracking-widest text-light-1/85 ml-1">Your Message</label>
                   <div className="relative">
-                    <textarea 
+                    <textarea
                       required
                       id="contact-message"
                       rows={5}
@@ -175,13 +167,13 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="Tell me about your HR challenges..."
-                      className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12 resize-none" 
+                      className="w-full bg-white/70 border border-[#8B2643]/20 rounded-xl px-5 py-4 text-light-1 placeholder-light-1/60 focus:outline-none focus:ring-2 focus:ring-[#8B2643]/15 focus:border-[#8B2643] transition-all pl-12 resize-none"
                     />
                     <MessageSquare className="absolute left-4 top-6 text-[#8B2643]/60" size={18} />
                   </div>
                 </div>
 
-                <button 
+                <button
                   type="submit"
                   disabled={isSubmitting}
                   className="btn-primary w-full flex items-center justify-center gap-3 py-4 md:py-5 text-lg shadow-lg hover:shadow-xl shadow-accent/25 disabled:opacity-50"
@@ -196,6 +188,82 @@ const Contact = () => {
         </div>
       </div>
 
+      {/* Thank You for Contact Modal */}
+      <AnimatePresence>
+        {isThankYouOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+            onClick={() => setIsThankYouOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 30, opacity: 0 }}
+              animate={{ 
+                scale: 1, 
+                y: 0, 
+                opacity: 1,
+                transition: { type: "spring", damping: 20, stiffness: 100 } 
+              }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              className="bg-gradient-to-b from-[#FFF0F3] to-[#FFE3E8] border border-[#8B2643]/30 rounded-3xl w-full max-w-md p-8 text-center relative shadow-2xl overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Decorative background glow */}
+              <div className="absolute -top-10 -left-10 w-24 h-24 bg-[#8B2643]/10 rounded-full blur-xl animate-pulse" />
+              <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-[#8B2643]/10 rounded-full blur-xl animate-pulse" />
+
+              <button 
+                onClick={() => setIsThankYouOpen(false)}
+                className="absolute top-4 right-4 text-light-1/40 hover:text-[#8B2643] transition-colors"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="flex justify-center mb-6">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: [0, 1.2, 1] }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                  className="w-16 h-16 rounded-full bg-[#8B2643]/10 flex items-center justify-center text-[#8B2643]"
+                >
+                  <Send size={28} className="text-[#8B2643]" />
+                </motion.div>
+              </div>
+
+              <motion.h3 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-2xl font-extrabold mb-3 text-light-1"
+              >
+                Thank You, <span className="bg-gradient-to-r from-[#8B2643] to-[#4A1525] bg-clip-text text-transparent">{submittedName}</span>!
+              </motion.h3>
+
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-light-1/80 text-sm leading-relaxed mb-6 font-medium"
+              >
+                Thank you for reaching out! I will review your strategic HR requirements and connect with you within 24 hours.
+              </motion.p>
+
+              <motion.button 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                onClick={() => setIsThankYouOpen(false)}
+                className="btn-primary px-8 py-3 rounded-full text-xs font-bold uppercase tracking-widest"
+              >
+                Close
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Toast Notification Banner */}
       <AnimatePresence>
         {toast.show && (
@@ -207,7 +275,7 @@ const Contact = () => {
           >
             <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping shrink-0" />
             <div className="text-sm font-bold text-light-1">{toast.message}</div>
-            <button 
+            <button
               onClick={() => setToast({ show: false, message: "" })}
               className="text-light-1/40 hover:text-accent ml-2 text-xs"
             >
